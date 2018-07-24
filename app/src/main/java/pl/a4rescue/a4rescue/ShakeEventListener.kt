@@ -33,8 +33,6 @@ class ShakeEventListener : SensorEventListener {
     /** OnShakeListener that is called when shake is detected.  */
     private var mShakeListener: OnShakeListener? = null
 
-    private val fileSaver = FileSaver
-
     /**
      * Interface for shake gesture.
      */
@@ -58,7 +56,6 @@ class ShakeEventListener : SensorEventListener {
 
         // calculate movement
         val totalMovement = Math.abs(x + y + z - lastX - lastY - lastZ)
-        fileSaver.write(totalMovement.toString())
         Log.d("FORCE", totalMovement.toString())
 
         if (totalMovement > MIN_FORCE) {

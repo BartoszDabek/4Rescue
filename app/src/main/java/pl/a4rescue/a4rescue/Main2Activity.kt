@@ -14,7 +14,6 @@ class Main2Activity : AppCompatActivity() {
 
     private var mSensorManager: SensorManager? = null
     private var mSensorListener: ShakeEventListener? = null
-    private val fileSaver = FileSaver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +25,10 @@ class Main2Activity : AppCompatActivity() {
                 mSensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_UI)
         mSensorListener!!.setOnShakeListener(object : ShakeEventListener.OnShakeListener {
-
             override fun onShake() {
                 Toast.makeText(this@Main2Activity, "Shake!", Toast.LENGTH_SHORT).show()
             }
         })
-
-        fileSaver.init()
 
         stopBtn.setOnClickListener {
             mSensorManager?.unregisterListener(mSensorListener)
@@ -60,7 +56,6 @@ class Main2Activity : AppCompatActivity() {
         super.onStop()
         Log.d("TAG", "ON STOP Main2Activity")
         mSensorManager?.unregisterListener(mSensorListener)
-        fileSaver.close()
     }
 
     override fun onDestroy() {
