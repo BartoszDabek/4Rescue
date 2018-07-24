@@ -4,19 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    <!--android:background="@drawable/background" >-->
-
+    tools:context=".Main2Activity">
 
     <Button
-        android:id="@+id/startBtn"
+        android:id="@+id/stopBtn"
         android:layout_width="338dp"
         android:layout_height="66dp"
         android:layout_marginBottom="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@color/colorButton"
-        android:text="@string/start"
+        android:text="@string/stop"
         android:textColor="#FFF"
         android:textSize="28sp"
         android:fontFamily="sans-serif"
