@@ -8,58 +8,78 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.crash_listener_activity.*
 
-class Main2Activity : AppCompatActivity() {
+class CrashListenerActivity : AppCompatActivity() {
 
     private var mSensorManager: SensorManager? = null
     private var mSensorListener: ShakeEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.crash_listener_activity)
 
+        startMeasureGForces()
+        stopBtnClickListener()
+    }
+
+    private fun startMeasureGForces() {
         mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mSensorListener = ShakeEventListener()
+        registerSensorListener()
+        executeActionWhenGForceIsToHigh()
+    }
+
+    private fun registerSensorListener() {
         mSensorManager?.registerListener(mSensorListener,
                 mSensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_UI)
+    }
+
+    private fun executeActionWhenGForceIsToHigh() {
         mSensorListener!!.setOnShakeListener(object : ShakeEventListener.OnShakeListener {
             override fun onShake() {
-                Toast.makeText(this@Main2Activity, "Shake!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CrashListenerActivity, "Shake!", Toast.LENGTH_SHORT).show()
             }
         })
+    }
 
+    private fun stopBtnClickListener() {
         stopBtn.setOnClickListener {
-            mSensorManager?.unregisterListener(mSensorListener)
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            unregisterSensorListener()
+            switchToMainActivity()
         }
+    }
+
+    private fun unregisterSensorListener() {
+        mSensorManager?.unregisterListener(mSensorListener)
+    }
+
+    private fun switchToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TAG", "ON RESUME Main2Activity")
-        mSensorManager?.registerListener(mSensorListener,
-                mSensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_UI)
+        Log.d("TAG", "ON RESUME CrashListenerActivity")
+        registerSensorListener()
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("TAG", "ON PAUSE Main2Activity")
-        mSensorManager?.unregisterListener(mSensorListener)
+        Log.d("TAG", "ON PAUSE CrashListenerActivity")
+        unregisterSensorListener()
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("TAG", "ON STOP Main2Activity")
-        mSensorManager?.unregisterListener(mSensorListener)
+        Log.d("TAG", "ON STOP CrashListenerActivity")
+        unregisterSensorListener()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TAG", "ON DESTROY Main2Activity")
+        Log.d("TAG", "ON DESTROY CrashListenerActivity")
     }
 }

@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         startBtn.setOnClickListener {
-            val intent = Intent(this, Main2Activity::class.java)
+            val intent = Intent(this, CrashListenerActivity::class.java)
             startActivity(intent)
         }
     }
