@@ -1,4 +1,4 @@
-package pl.a4rescue.a4rescue
+package pl.a4rescue.a4rescue.listeners
 
 import android.hardware.Sensor
 import android.hardware.SensorEvent

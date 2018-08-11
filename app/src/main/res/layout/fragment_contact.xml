@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CrashListenerActivity">
+    tools:context=".fragments.ContactFragment">
 
-    <Button
-        android:id="@+id/stopBtn"
-        android:layout_width="338dp"
-        android:layout_height="66dp"
-        android:layout_marginBottom="32dp"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="203dp"
+        android:layout_height="132dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@color/colorButton"
-        android:text="@string/stop"
-        android:textColor="#FFF"
-        android:textSize="28sp"
-        android:fontFamily="sans-serif"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Contacts" />
 
 </android.support.constraint.ConstraintLayout>

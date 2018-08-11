@@ -1,4 +1,4 @@
-package pl.a4rescue.a4rescue
+package pl.a4rescue.a4rescue.activities
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.crash_listener_activity.*
+import pl.a4rescue.a4rescue.R
+import pl.a4rescue.a4rescue.listeners.ShakeEventListener
 
 class CrashListenerActivity : AppCompatActivity() {
 

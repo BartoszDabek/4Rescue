@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CrashListenerActivity">
+    tools:context=".fragments.HomeScreenFragment">
 
     <Button
-        android:id="@+id/stopBtn"
+        android:id="@+id/startBtn"
         android:layout_width="338dp"
         android:layout_height="66dp"
         android:layout_marginBottom="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@color/colorButton"
-        android:text="@string/stop"
+        android:text="@string/start"
         android:textColor="#FFF"
         android:textSize="28sp"
         android:fontFamily="sans-serif"
