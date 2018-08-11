@@ -2,11 +2,8 @@
     <string name="app_name">4Rescue</string>
     <string name="start">START</string>
     <string name="stop">Stop</string>
-    <string name="add_contact">Contact persons</string>
+    <string name="add_contact">Contacts</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="home_screen">Homescreen</string>
+    <string name="home_screen">Home</string>
 </resources>
