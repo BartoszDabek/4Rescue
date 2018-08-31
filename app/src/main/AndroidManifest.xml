@@ -18,8 +18,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,12 +27,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.CrashListenerActivity"
+            android:name=".activities.CrashDetectingActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".activities.CrashDetectedActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

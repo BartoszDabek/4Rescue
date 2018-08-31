@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_home_screen.*
 import pl.a4rescue.a4rescue.R
-import pl.a4rescue.a4rescue.activities.CrashListenerActivity
+import pl.a4rescue.a4rescue.activities.CrashDetectingActivity
 
 
 class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
@@ -25,7 +25,7 @@ class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
         Log.d(TAG, "onActivityCreated")
 
         startBtn.setOnClickListener {
-            val intent = Intent(activity, CrashListenerActivity::class.java)
+            val intent = Intent(activity, CrashDetectingActivity::class.java)
             startActivity(intent)
         }
 
