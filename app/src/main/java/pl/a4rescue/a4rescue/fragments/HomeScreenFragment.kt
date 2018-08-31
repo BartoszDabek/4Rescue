@@ -11,7 +11,10 @@ import kotlinx.android.synthetic.main.fragment_home_screen.*
 import pl.a4rescue.a4rescue.R
 import pl.a4rescue.a4rescue.activities.CrashListenerActivity
 
-class HomeScreenFragment : Fragment() {
+
+class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
+
+    private val TAG = HomeScreenFragment::class.java.simpleName
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home_screen, container, false)
@@ -19,11 +22,13 @@ class HomeScreenFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Log.d(TAG, "onActivityCreated")
 
         startBtn.setOnClickListener {
             val intent = Intent(activity, CrashListenerActivity::class.java)
             startActivity(intent)
         }
-    }
 
+        checkDrawer(activity!!, R.id.nav_home)
+    }
 }

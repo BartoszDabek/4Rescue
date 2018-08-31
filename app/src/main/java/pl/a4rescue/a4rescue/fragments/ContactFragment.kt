@@ -22,7 +22,7 @@ import pl.a4rescue.a4rescue.persistence.Contact
 import pl.a4rescue.a4rescue.viewmodel.ContactViewModel
 
 
-class ContactFragment : Fragment() {
+class ContactFragment : Fragment(), FragmentDrawerCheck {
 
     private val TAG = ContactFragment::class.java.simpleName
     private val PICK_CONTACT_REQUEST = 1
@@ -45,6 +45,8 @@ class ContactFragment : Fragment() {
         val adapter = setRecyclerView()
         setSwipeHelper(adapter)
         setViewModel(adapter)
+
+        checkDrawer(activity!!, R.id.nav_contacts)
     }
 
     private fun setRecyclerView(): ContactListAdapter {
