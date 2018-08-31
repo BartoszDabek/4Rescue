@@ -1,4 +1,4 @@
-package pl.a4rescue.a4rescue.contact
+package pl.a4rescue.a4rescue.util
 
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper

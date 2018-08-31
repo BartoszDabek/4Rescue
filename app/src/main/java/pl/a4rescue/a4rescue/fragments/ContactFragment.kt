@@ -17,7 +17,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_contact.*
 import pl.a4rescue.a4rescue.R
 import pl.a4rescue.a4rescue.adapter.ContactListAdapter
-import pl.a4rescue.a4rescue.contact.SwipeHelper
+import pl.a4rescue.a4rescue.util.SwipeHelper
 import pl.a4rescue.a4rescue.persistence.Contact
 import pl.a4rescue.a4rescue.viewmodel.ContactViewModel
 
