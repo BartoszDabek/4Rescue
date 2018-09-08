@@ -8,4 +8,5 @@
     <string name="home_screen">Home</string>
     <string name="add_new_contact">Add new Contact</string>
     <string name="max_contacts">You can\'t define more contacts!</string>
+    <string name="swipe_cancel">SWIPE TO CANCEL</string>
 </resources>

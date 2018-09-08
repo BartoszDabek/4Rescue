@@ -32,7 +32,8 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:design:$support_version"
     implementation "com.android.support:support-v4:$support_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation "com.ebanx:swipe-button:$swipe_btn_version"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
     // Lifecycle components
     implementation "android.arch.lifecycle:extensions:$arch_lifecycle_version"

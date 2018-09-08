@@ -2,6 +2,7 @@ package pl.a4rescue.a4rescue.activities
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -31,9 +32,11 @@ class CrashDetectedActivity : AppCompatActivity() {
         turnOnVibration()
         turnOnAlarm()
 
-        button.setOnClickListener {
+        swipe_btn.setOnActiveListener {
             Log.d(TAG, "Stopping alarm and vibration")
             turnOffVibrationAndAlarm()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
