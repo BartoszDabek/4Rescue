@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_crash_detected.*
 import pl.a4rescue.a4rescue.R
+import pl.a4rescue.a4rescue.util.LocationService
 
 
 class CrashDetectedActivity : AppCompatActivity() {
@@ -20,6 +21,7 @@ class CrashDetectedActivity : AppCompatActivity() {
     }
 
     private val TAG = CrashDetectedActivity::class.java.simpleName
+    private val location: LocationService = LocationService
     private var originalMusicVolume: Int = 0
     private lateinit var audioManager: AudioManager
     private lateinit var vibrator: Vibrator
@@ -31,13 +33,14 @@ class CrashDetectedActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate")
         setContentView(R.layout.activity_crash_detected)
 
-        //TODO: start getting user localization
+        getUserCurrentLocation()
         setUpAndStartTimer()
         turnOnVibration()
         turnOnAlarm()
 
         swipe_btn.setOnActiveListener {
             Log.d(TAG, "Stopping alarm and vibration")
+            location.stopLocationUpdates()
             turnOffVibrationAndAlarm()
             timer.cancel()
             val intent = Intent(this, MainActivity::class.java)
@@ -45,12 +48,19 @@ class CrashDetectedActivity : AppCompatActivity() {
         }
     }
 
+    private fun getUserCurrentLocation() {
+        location.continueLocationRequests(this)
+    }
+
     private fun setUpAndStartTimer() {
         progress_countdown.max = COUNTDOWN_TIMER_LENGTH
 
         timer = object : CountDownTimer(22000, 1000) {
             override fun onFinish() {
+                Log.d(TAG, "LONGITUDE: ${location.longitude}")
+                Log.d(TAG, "LATITUDE: ${location.latitude}")
                 //TODO: switch intent to crash not cancelled + send notifications to defined users
+//                location.stopLocationUpdates()
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -90,7 +100,7 @@ class CrashDetectedActivity : AppCompatActivity() {
         val alarmSoundURI = getAlarmSound()
         alarm = MediaPlayer.create(applicationContext, alarmSoundURI)
         alarm.isLooping = true
-        setMusicAtMaxVolume()
+        setSoundAtMaxVolume()
         alarm.start()
     }
 
@@ -100,7 +110,7 @@ class CrashDetectedActivity : AppCompatActivity() {
         return Uri.parse(sirenSoundResource)
     }
 
-    private fun setMusicAtMaxVolume() {
+    private fun setSoundAtMaxVolume() {
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         originalMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
