@@ -55,16 +55,16 @@ class CrashDetectedActivity : AppCompatActivity() {
     private fun setUpAndStartTimer() {
         progress_countdown.max = COUNTDOWN_TIMER_LENGTH
 
-        timer = object : CountDownTimer(22000, 1000) {
+        timer = object : CountDownTimer(21000, 500) {
             override fun onFinish() {
                 Log.d(TAG, "LONGITUDE: ${location.longitude}")
                 Log.d(TAG, "LATITUDE: ${location.latitude}")
                 //TODO: switch intent to crash not cancelled + send notifications to defined users
-//                location.stopLocationUpdates()
+                location.stopLocationUpdates()
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                val secondsRemaining = (millisUntilFinished / 1000) - 1
+                val secondsRemaining = (millisUntilFinished / 1000)
                 updateCountdownUI(secondsRemaining)
             }
         }.start()

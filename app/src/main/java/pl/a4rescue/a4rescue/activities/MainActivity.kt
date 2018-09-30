@@ -1,6 +1,7 @@
 package pl.a4rescue.a4rescue.activities
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSION)
         location.startLocationRequests(this)
+        location.stopLocationUpdates()
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -89,6 +91,9 @@ class MainActivity : AppCompatActivity() {
                 if (resultCode == RESULT_CANCELED) {
                     Log.d(TAG, "USER DISAGREED ON TURN ON LOCATION")
                     location.startLocationRequests(this)
+                } else if (resultCode == Activity.RESULT_OK) {
+                    Log.d(TAG, "USER AGREED ON TURN ON LOCATION")
+                    location.stopLocationUpdates()
                 }
             }
         }
