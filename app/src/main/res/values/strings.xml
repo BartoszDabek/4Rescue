@@ -9,4 +9,7 @@
     <string name="add_new_contact">Add new Contact</string>
     <string name="max_contacts">You can\'t define more contacts!</string>
     <string name="swipe_cancel">SWIPE TO CANCEL</string>
+    <string name="ok">Ok</string>
+    <string name="text_location_permission">In order to make app works you need to allow application to get your location</string>
+    <string name="title_location_permission">Location Request</string>
 </resources>

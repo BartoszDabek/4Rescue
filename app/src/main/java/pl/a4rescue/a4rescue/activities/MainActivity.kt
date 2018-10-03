@@ -7,11 +7,13 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
+import com.google.android.gms.common.api.ResolvableApiException
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.a4rescue.a4rescue.R
 import pl.a4rescue.a4rescue.fragments.ContactFragment
@@ -33,11 +35,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         setupDrawerToggle()
         setupDrawerContent()
-
-        ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSION)
-        location.startLocationRequests(this)
-        location.stopLocationUpdates()
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -90,10 +87,11 @@ class MainActivity : AppCompatActivity() {
             REQUEST_LOCATION_TURN_ON -> {
                 if (resultCode == RESULT_CANCELED) {
                     Log.d(TAG, "USER DISAGREED ON TURN ON LOCATION")
-                    location.startLocationRequests(this)
                 } else if (resultCode == Activity.RESULT_OK) {
                     Log.d(TAG, "USER AGREED ON TURN ON LOCATION")
-                    location.stopLocationUpdates()
+                    location.continueLocationRequests(this)
+                    val intent = Intent(this, CrashDetectingActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }
@@ -104,10 +102,29 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             REQUEST_LOCATION_PERMISSION -> {
-                if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Log.d(TAG, "USER DISAGREED ON USING LOCALIZATION")
-                    ActivityCompat.requestPermissions(this,
-                            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSION)
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                        val startLocationRequests = location.startLocationRequests(this)
+
+                        startLocationRequests?.addOnFailureListener(this) { e ->
+                            if (e is ResolvableApiException) {
+                                Log.d(TAG, "Missing permissions!")
+                                Log.d(TAG, "GPS DISABLED, NEED TO ASK FOR ENABLE")
+                                e.startResolutionForResult(this, LocationService.REQUEST_LOCATION_TURN_ON)
+
+                            }
+                        }
+
+                        startLocationRequests?.addOnSuccessListener {
+                            location.continueLocationRequests(this)
+                            Log.d(TAG, "GPS ENABLED, USER CAN PROCEED")
+                            val intent = Intent(this, CrashDetectingActivity::class.java)
+                            startActivity(intent)
+
+                        }
+                    }
                 }
             }
         }

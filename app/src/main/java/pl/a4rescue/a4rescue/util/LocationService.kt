@@ -3,8 +3,8 @@ package pl.a4rescue.a4rescue.util
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.Task
 
 
 object LocationService {
@@ -24,36 +24,22 @@ object LocationService {
     }
 
     @SuppressLint("MissingPermission")
-    fun startLocationRequests(activity: Activity) {
+    fun startLocationRequests(activity: Activity): Task<LocationSettingsResponse>? {
         Log.d(TAG, "startLocationRequests")
-        locationRequest.interval = 10 * 60 * 1000
-        locationRequest.maxWaitTime = 60 * 60 * 1000
-        locationRequest.fastestInterval = 2 * 60 * 1000
-        locationRequest.priority = LocationRequest.PRIORITY_LOW_POWER
+        locationRequest.interval = 10000
+        locationRequest.fastestInterval = 5000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
-        val builder = LocationSettingsRequest.Builder()
+        val settingsBuilder = LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest)
-        val client = LocationServices.getSettingsClient(activity)
-        val task = client.checkLocationSettings(builder.build())
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
-
-        task.addOnFailureListener(activity) { e ->
-            if (e is ResolvableApiException) {
-                Log.d(TAG, "Missing permissions!")
-                e.startResolutionForResult(activity, REQUEST_LOCATION_TURN_ON)
-            }
-        }
+        return LocationServices.getSettingsClient(activity)
+                .checkLocationSettings(settingsBuilder.build())
     }
 
     @SuppressLint("MissingPermission")
     fun continueLocationRequests(activity: Activity) {
         Log.d(TAG, "continueLocationRequests")
-        val locationRequest = LocationRequest()
-        locationRequest.interval = 10000
-        locationRequest.fastestInterval = 5000
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
