@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
@@ -30,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate")
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
@@ -85,50 +85,57 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_LOCATION_TURN_ON -> {
-                if (resultCode == RESULT_CANCELED) {
-                    Log.d(TAG, "USER DISAGREED ON TURN ON LOCATION")
-                } else if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
                     Log.d(TAG, "USER AGREED ON TURN ON LOCATION")
-                    location.continueLocationRequests(this)
-                    val intent = Intent(this, CrashDetectingActivity::class.java)
-                    startActivity(intent)
+                    startLocationRequestAndSwitchActivity()
                 }
             }
         }
-
         super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        Log.d(TAG, "onRequestPermissionsResult")
         when (requestCode) {
             REQUEST_LOCATION_PERMISSION -> {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(this,
+                checkPermissionsAndAskForLocationRequest(grantResults)
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    fun checkPermissionsAndAskForLocationRequest(grantResults: IntArray) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this,
                             Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-                        val startLocationRequests = location.startLocationRequests(this)
+                Log.d(TAG, "Permission granted for ${Manifest.permission.ACCESS_FINE_LOCATION}")
+                askForLocationRequest()
+            }
+        }
+    }
 
-                        startLocationRequests?.addOnFailureListener(this) { e ->
-                            if (e is ResolvableApiException) {
-                                Log.d(TAG, "Missing permissions!")
-                                Log.d(TAG, "GPS DISABLED, NEED TO ASK FOR ENABLE")
-                                e.startResolutionForResult(this, LocationService.REQUEST_LOCATION_TURN_ON)
+    fun askForLocationRequest() {
+        val startLocationRequests = location.prepareLocation(this)
 
-                            }
-                        }
+        startLocationRequests?.addOnFailureListener(this) { e ->
+            if (e is ResolvableApiException) {
+                Log.d(TAG, "LOCATION DISABLED, NEED TO ASK FOR ENABLE")
+                e.startResolutionForResult(this, REQUEST_LOCATION_TURN_ON)
 
-                        startLocationRequests?.addOnSuccessListener {
-                            location.continueLocationRequests(this)
-                            Log.d(TAG, "GPS ENABLED, USER CAN PROCEED")
-                            val intent = Intent(this, CrashDetectingActivity::class.java)
-                            startActivity(intent)
-
-                        }
-                    }
-                }
             }
         }
 
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        startLocationRequests?.addOnSuccessListener {
+            Log.d(TAG, "LOCATION ENABLED, USER CAN PROCEED")
+            startLocationRequestAndSwitchActivity()
+        }
+    }
+
+    fun startLocationRequestAndSwitchActivity() {
+        Log.d(TAG,"startLocationRequestAndSwitchActivity")
+        location.startLocationRequests(applicationContext)
+        val intent = Intent(this, CrashDetectingActivity::class.java)
+        startActivity(intent)
     }
 }

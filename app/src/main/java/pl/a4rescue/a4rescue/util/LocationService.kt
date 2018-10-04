@@ -2,6 +2,7 @@ package pl.a4rescue.a4rescue.util
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
@@ -13,19 +14,19 @@ object LocationService {
     const val REQUEST_LOCATION_TURN_ON: Int = 1
     const val REQUEST_LOCATION_PERMISSION: Int = 2
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var locationCallback: LocationCallback? = null
     private val locationRequest = LocationRequest()
     var longitude: Double? = null
     var latitude: Double? = null
 
     init {
+        Log.d(TAG, "Init Location Service")
         locationCallback = MyLocationCallback()
     }
 
     @SuppressLint("MissingPermission")
-    fun startLocationRequests(activity: Activity): Task<LocationSettingsResponse>? {
-        Log.d(TAG, "startLocationRequests")
+    fun prepareLocation(activity: Activity): Task<LocationSettingsResponse>? {
+        Log.d(TAG, "prepareLocation")
         locationRequest.interval = 10000
         locationRequest.fastestInterval = 5000
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -33,19 +34,20 @@ object LocationService {
         val settingsBuilder = LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest)
 
-        return LocationServices.getSettingsClient(activity)
+        return LocationServices.getSettingsClient(activity.applicationContext)
                 .checkLocationSettings(settingsBuilder.build())
     }
 
     @SuppressLint("MissingPermission")
-    fun continueLocationRequests(activity: Activity) {
-        Log.d(TAG, "continueLocationRequests")
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+    fun startLocationRequests(context: Context) {
+        Log.d(TAG, "startLocationRequests")
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context.applicationContext)
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
-    fun stopLocationUpdates() {
-        Log.d(TAG, "stopLocationUpdates")
+    fun stopLocationRequests(context: Context) {
+        Log.d(TAG, "stopLocationRequests")
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context.applicationContext)
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
@@ -54,8 +56,8 @@ object LocationService {
             for (location in locationResult.locations) {
                 longitude = location.longitude
                 latitude = location.latitude
-                Log.d("SERVICE LONGITUDE: ", "$longitude")
-                Log.d("SERVICE LATITUDE: ", "$latitude")
+                Log.d(TAG, "SERVICE LONGITUDE: $longitude")
+                Log.d(TAG, "SERVICE LATITUDE: $latitude")
             }
         }
     }

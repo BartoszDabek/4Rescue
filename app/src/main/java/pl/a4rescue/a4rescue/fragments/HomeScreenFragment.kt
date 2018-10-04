@@ -22,7 +22,6 @@ import pl.a4rescue.a4rescue.util.LocationService
 class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
 
     private val TAG = HomeScreenFragment::class.java.simpleName
-    private val location: LocationService = LocationService
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home_screen, container, false)
@@ -32,10 +31,9 @@ class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
         super.onActivityCreated(savedInstanceState)
         Log.d(TAG, "onActivityCreated")
 
-
         startBtn.setOnClickListener {
             if (checkLocationPermission()) {
-                val startLocationRequests = location.startLocationRequests(activity!!)
+                val startLocationRequests = LocationService.prepareLocation(activity!!)
 
                 startLocationRequests?.addOnFailureListener(activity!!) { e ->
                     if (e is ResolvableApiException) {
@@ -47,7 +45,7 @@ class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
                 }
 
                 startLocationRequests?.addOnSuccessListener {
-                    location.continueLocationRequests(activity!!)
+                    LocationService.startLocationRequests(activity!!.applicationContext)
                     Log.d(TAG, "GPS ENABLED, USER CAN PROCEED")
                     val intent = Intent(activity, CrashDetectingActivity::class.java)
                     startActivity(intent)
@@ -83,9 +81,16 @@ class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
                     .create()
                     .show()
         } else {
-            ActivityCompat.requestPermissions(activity!!,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    LocationService.REQUEST_LOCATION_PERMISSION)
+            AlertDialog.Builder(activity!!)
+                    .setTitle(R.string.title_location_permission)
+                    .setMessage("USER CLICKED NEVER SHOW AGAIN OR APP HAS BEEN RUN 1st TIME!")
+                    .setPositiveButton(R.string.ok) { dialogInterface, i ->
+                        ActivityCompat.requestPermissions(activity!!,
+                                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                                LocationService.REQUEST_LOCATION_PERMISSION)
+                    }
+                    .create()
+                    .show()
         }
     }
 }

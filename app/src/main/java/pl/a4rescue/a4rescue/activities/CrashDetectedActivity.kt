@@ -21,7 +21,6 @@ class CrashDetectedActivity : AppCompatActivity() {
     }
 
     private val TAG = CrashDetectedActivity::class.java.simpleName
-    private val location: LocationService = LocationService
     private var originalMusicVolume: Int = 0
     private lateinit var audioManager: AudioManager
     private lateinit var vibrator: Vibrator
@@ -33,14 +32,14 @@ class CrashDetectedActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate")
         setContentView(R.layout.activity_crash_detected)
 
-        getUserCurrentLocation()
+        LocationService.startLocationRequests(applicationContext)
         setUpAndStartTimer()
         turnOnVibration()
         turnOnAlarm()
 
         swipe_btn.setOnActiveListener {
-            Log.d(TAG, "Stopping alarm and vibration")
-            location.stopLocationUpdates()
+            Log.d(TAG, "User swiped button after crash was detected")
+            LocationService.stopLocationRequests(this)
             turnOffVibrationAndAlarm()
             timer.cancel()
             val intent = Intent(this, MainActivity::class.java)
@@ -48,19 +47,16 @@ class CrashDetectedActivity : AppCompatActivity() {
         }
     }
 
-    private fun getUserCurrentLocation() {
-        location.continueLocationRequests(this)
-    }
-
     private fun setUpAndStartTimer() {
         progress_countdown.max = COUNTDOWN_TIMER_LENGTH
 
         timer = object : CountDownTimer(21000, 500) {
             override fun onFinish() {
-                Log.d(TAG, "LONGITUDE: ${location.longitude}")
-                Log.d(TAG, "LATITUDE: ${location.latitude}")
+                //TODO: check if location is found
+                Log.d(TAG, "LONGITUDE: ${LocationService.longitude}")
+                Log.d(TAG, "LATITUDE: ${LocationService.latitude}")
                 //TODO: switch intent to crash not cancelled + send notifications to defined users
-                location.stopLocationUpdates()
+                LocationService.stopLocationRequests(applicationContext)
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -86,17 +82,18 @@ class CrashDetectedActivity : AppCompatActivity() {
         val vibrationPattern = longArrayOf(0, 400, 1000)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d(TAG, "Vibration on API >= 26")
+            Log.d(TAG, "Turn on vibration with API >= 26")
             val effect = VibrationEffect.createWaveform(vibrationPattern, 0)
             vibrator.vibrate(effect)
         } else {
-            Log.d(TAG, "Vibration on API < 26")
+            Log.d(TAG, "Turn on vibration with API < 26")
             @Suppress("DEPRECATION")
             vibrator.vibrate(vibrationPattern, 0)
         }
     }
 
     private fun turnOnAlarm() {
+        Log.d(TAG, "turnOnAlarm")
         val alarmSoundURI = getAlarmSound()
         alarm = MediaPlayer.create(applicationContext, alarmSoundURI)
         alarm.isLooping = true
