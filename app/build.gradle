@@ -58,4 +58,5 @@ dependencies {
 
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
 }
