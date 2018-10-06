@@ -52,11 +52,15 @@ class CrashDetectedActivity : AppCompatActivity() {
 
         timer = object : CountDownTimer(21000, 500) {
             override fun onFinish() {
-                //TODO: check if location is found
-                Log.d(TAG, "LONGITUDE: ${LocationService.longitude}")
-                Log.d(TAG, "LATITUDE: ${LocationService.latitude}")
-                //TODO: switch intent to crash not cancelled + send notifications to defined users
-                LocationService.stopLocationRequests(applicationContext)
+                if (LocationService.latitude != null && LocationService.longitude != null) {
+                    Log.d(TAG, "LONGITUDE: ${LocationService.longitude}")
+                    Log.d(TAG, "LATITUDE: ${LocationService.latitude}")
+                    LocationService.stopLocationRequests(applicationContext)
+                    val intent = Intent(this@CrashDetectedActivity, SendSMSActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    //TODO: WHAT TO DO IF LOCATION IS NOT FOUND?? WAIT UNTIL WILL FIND AND THEN PROCEED SEND SMS?
+                }
             }
 
             override fun onTick(millisUntilFinished: Long) {
