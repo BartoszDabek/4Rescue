@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_crash_detected.*
 import pl.a4rescue.a4rescue.R
+import pl.a4rescue.a4rescue.util.LocationService
 
 
 class CrashDetectedActivity : AppCompatActivity() {
@@ -31,13 +32,14 @@ class CrashDetectedActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate")
         setContentView(R.layout.activity_crash_detected)
 
-        //TODO: start getting user localization
+        LocationService.startLocationRequests(applicationContext)
         setUpAndStartTimer()
         turnOnVibration()
         turnOnAlarm()
 
         swipe_btn.setOnActiveListener {
-            Log.d(TAG, "Stopping alarm and vibration")
+            Log.d(TAG, "User swiped button after crash was detected")
+            LocationService.stopLocationRequests(this)
             turnOffVibrationAndAlarm()
             timer.cancel()
             val intent = Intent(this, MainActivity::class.java)
@@ -48,13 +50,17 @@ class CrashDetectedActivity : AppCompatActivity() {
     private fun setUpAndStartTimer() {
         progress_countdown.max = COUNTDOWN_TIMER_LENGTH
 
-        timer = object : CountDownTimer(22000, 1000) {
+        timer = object : CountDownTimer(21000, 500) {
             override fun onFinish() {
+                //TODO: check if location is found
+                Log.d(TAG, "LONGITUDE: ${LocationService.longitude}")
+                Log.d(TAG, "LATITUDE: ${LocationService.latitude}")
                 //TODO: switch intent to crash not cancelled + send notifications to defined users
+                LocationService.stopLocationRequests(applicationContext)
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                val secondsRemaining = (millisUntilFinished / 1000) - 1
+                val secondsRemaining = (millisUntilFinished / 1000)
                 updateCountdownUI(secondsRemaining)
             }
         }.start()
@@ -76,21 +82,22 @@ class CrashDetectedActivity : AppCompatActivity() {
         val vibrationPattern = longArrayOf(0, 400, 1000)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d(TAG, "Vibration on API >= 26")
+            Log.d(TAG, "Turn on vibration with API >= 26")
             val effect = VibrationEffect.createWaveform(vibrationPattern, 0)
             vibrator.vibrate(effect)
         } else {
-            Log.d(TAG, "Vibration on API < 26")
+            Log.d(TAG, "Turn on vibration with API < 26")
             @Suppress("DEPRECATION")
             vibrator.vibrate(vibrationPattern, 0)
         }
     }
 
     private fun turnOnAlarm() {
+        Log.d(TAG, "turnOnAlarm")
         val alarmSoundURI = getAlarmSound()
         alarm = MediaPlayer.create(applicationContext, alarmSoundURI)
         alarm.isLooping = true
-        setMusicAtMaxVolume()
+        setSoundAtMaxVolume()
         alarm.start()
     }
 
@@ -100,7 +107,7 @@ class CrashDetectedActivity : AppCompatActivity() {
         return Uri.parse(sirenSoundResource)
     }
 
-    private fun setMusicAtMaxVolume() {
+    private fun setSoundAtMaxVolume() {
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         originalMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)

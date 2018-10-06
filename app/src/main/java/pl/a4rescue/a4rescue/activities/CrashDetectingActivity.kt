@@ -10,6 +10,7 @@ import android.util.Log
 import kotlinx.android.synthetic.main.activity_crash_detecting.*
 import pl.a4rescue.a4rescue.R
 import pl.a4rescue.a4rescue.listeners.ShakeEventListener
+import pl.a4rescue.a4rescue.util.LocationService
 
 class CrashDetectingActivity : AppCompatActivity() {
 
@@ -22,6 +23,7 @@ class CrashDetectingActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate")
         setContentView(R.layout.activity_crash_detecting)
 
+        LocationService.stopLocationRequests(this)
         configureShakeSensor()
 
         stopBtn.setOnClickListener {
@@ -30,21 +32,9 @@ class CrashDetectingActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume")
-        startMeasureGForces()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause")
-        stopMeasureGForces()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop")
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
         stopMeasureGForces()
     }
 

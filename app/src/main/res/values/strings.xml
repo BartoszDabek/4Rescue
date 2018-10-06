@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">4Rescue</string>
-    <string name="start">START</string>
+    <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="add_contact">Contacts</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="home_screen">Home</string>
-    <string name="add_new_contact">Add new Contact</string>
+    <string name="add_new_contact">Add new contact</string>
     <string name="max_contacts">You can\'t define more contacts!</string>
     <string name="swipe_cancel">SWIPE TO CANCEL</string>
+    <string name="ok">OK</string>
+    <string name="text_location_permission">The app need access to your location to locate you when it detects a crash. The location is taken ONLY after crash is detected so it doesn\'t affect the battery</string>
+    <string name="title_location_permission">Location Request</string>
 </resources>
