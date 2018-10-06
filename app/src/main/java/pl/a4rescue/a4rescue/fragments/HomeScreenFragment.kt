@@ -70,27 +70,23 @@ class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
     private fun askUserForPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity!!,
                         Manifest.permission.ACCESS_FINE_LOCATION)) {
-            AlertDialog.Builder(activity!!)
-                    .setTitle(R.string.title_location_permission)
-                    .setMessage(R.string.text_location_permission)
-                    .setPositiveButton(R.string.ok) { dialogInterface, i ->
-                        ActivityCompat.requestPermissions(activity!!,
-                                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                                LocationService.REQUEST_LOCATION_PERMISSION)
-                    }
-                    .create()
-                    .show()
+
+            displayPermissionInfo(R.string.text_location_permission)
         } else {
-            AlertDialog.Builder(activity!!)
-                    .setTitle(R.string.title_location_permission)
-                    .setMessage("USER CLICKED NEVER SHOW AGAIN OR APP HAS BEEN RUN 1st TIME!")
-                    .setPositiveButton(R.string.ok) { dialogInterface, i ->
-                        ActivityCompat.requestPermissions(activity!!,
-                                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                                LocationService.REQUEST_LOCATION_PERMISSION)
-                    }
-                    .create()
-                    .show()
+            displayPermissionInfo(R.string.text_location_permission)
         }
+    }
+
+    private fun displayPermissionInfo(message: Int) {
+        AlertDialog.Builder(activity!!)
+                .setTitle(R.string.title_location_permission)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok) { dialogInterface, i ->
+                    ActivityCompat.requestPermissions(activity!!,
+                            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                            LocationService.REQUEST_LOCATION_PERMISSION)
+                }
+                .create()
+                .show()
     }
 }
