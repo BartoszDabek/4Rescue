@@ -69,7 +69,7 @@ class ContactFragment : Fragment(), FragmentDrawerCheck {
     private fun setViewModel(adapter: ContactListAdapter) {
         Log.d(TAG, "setViewModel")
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
-        contactViewModel.allWords.observe(this, Observer<List<Contact>> { list ->
+        contactViewModel.allContacts.observe(this, Observer<List<Contact>> { list ->
             adapter.insertContacts(list!!.toMutableList())
         })
     }
