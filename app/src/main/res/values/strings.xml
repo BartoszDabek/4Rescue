@@ -12,4 +12,5 @@
     <string name="ok">OK</string>
     <string name="text_location_permission">The app need access to your location to locate you when it detects a crash. The location is taken ONLY after crash is detected so it doesn\'t affect the battery</string>
     <string name="title_location_permission">Location Request</string>
+    <string name="sms_message">You\'re defined as my emergency contact. Looks like I had an accident. Please contact me and if I won\'t answer get a help for me. Here is my location: </string>
 </resources>

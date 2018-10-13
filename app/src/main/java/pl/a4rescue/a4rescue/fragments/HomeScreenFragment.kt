@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_home_screen.*
 import pl.a4rescue.a4rescue.R
 import pl.a4rescue.a4rescue.activities.CrashDetectingActivity
 import pl.a4rescue.a4rescue.util.LocationService
+import pl.a4rescue.a4rescue.util.PermissionManager
 
 
 class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
@@ -32,7 +33,7 @@ class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
         Log.d(TAG, "onActivityCreated")
 
         startBtn.setOnClickListener {
-            if (checkLocationPermission()) {
+            if (PermissionManager.checkPermissions(activity!!)) {
                 val startLocationRequests = LocationService.prepareLocation(activity!!)
 
                 startLocationRequests?.addOnFailureListener(activity!!) { e ->
@@ -54,39 +55,5 @@ class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
             }
         }
         checkDrawer(activity!!, R.id.nav_home)
-    }
-
-    private fun checkLocationPermission(): Boolean {
-        if (ContextCompat.checkSelfPermission(activity!!,
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            askUserForPermission()
-            return false
-        } else {
-            return true
-        }
-    }
-
-    private fun askUserForPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity!!,
-                        Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-            displayPermissionInfo(R.string.text_location_permission)
-        } else {
-            displayPermissionInfo(R.string.text_location_permission)
-        }
-    }
-
-    private fun displayPermissionInfo(message: Int) {
-        AlertDialog.Builder(activity!!)
-                .setTitle(R.string.title_location_permission)
-                .setMessage(message)
-                .setPositiveButton(R.string.ok) { dialogInterface, i ->
-                    ActivityCompat.requestPermissions(activity!!,
-                            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                            LocationService.REQUEST_LOCATION_PERMISSION)
-                }
-                .create()
-                .show()
     }
 }
