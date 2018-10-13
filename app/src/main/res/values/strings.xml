@@ -10,7 +10,7 @@
     <string name="max_contacts">You can\'t define more contacts!</string>
     <string name="swipe_cancel">SWIPE TO CANCEL</string>
     <string name="ok">OK</string>
-    <string name="text_location_permission">The app need access to your location to locate you when it detects a crash. The location is taken ONLY after crash is detected so it doesn\'t affect the battery</string>
-    <string name="title_location_permission">Location Request</string>
-    <string name="sms_message">You\'re defined as my emergency contact. Looks like I had an accident. Please contact me and if I won\'t answer get a help for me. Here is my location: </string>
+    <string name="text_app_permissions">The app need access to your location and sending messages. The location is taken ONLY after collision and it doesn\'t affect the battery.</string>
+    <string name="title_app_permissions">Permissions Request</string>
+    <string name="sms_message">You\'re defined as my emergency contact. Looks like I had an accident. Please contact me! If I don\'t answer get me a help. Here is my location: </string>
 </resources>

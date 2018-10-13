@@ -18,8 +18,8 @@ import pl.a4rescue.a4rescue.R
 import pl.a4rescue.a4rescue.fragments.ContactFragment
 import pl.a4rescue.a4rescue.fragments.HomeScreenFragment
 import pl.a4rescue.a4rescue.util.LocationService
-import pl.a4rescue.a4rescue.util.LocationService.REQUEST_LOCATION_PERMISSION
-import pl.a4rescue.a4rescue.util.LocationService.REQUEST_LOCATION_TURN_ON
+import pl.a4rescue.a4rescue.util.PermissionManager.Companion.LOCATION_REQUEST
+import pl.a4rescue.a4rescue.util.PermissionManager.Companion.RESCUE_PERMISSIONS
 
 
 class MainActivity : AppCompatActivity() {
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            REQUEST_LOCATION_TURN_ON -> {
+            LOCATION_REQUEST -> {
                 if (resultCode == Activity.RESULT_OK) {
                     Log.d(TAG, "USER AGREED ON TURN ON LOCATION")
                     startLocationRequestAndSwitchActivity()
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         Log.d(TAG, "onRequestPermissionsResult")
         when (requestCode) {
-            REQUEST_LOCATION_PERMISSION -> {
+            RESCUE_PERMISSIONS -> {
                 checkPermissionsAndAskForLocationRequest(grantResults)
             }
         }
@@ -105,11 +105,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun checkPermissionsAndAskForLocationRequest(grantResults: IntArray) {
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        val location = 0
+        val sendSms = 1
+        if (grantResults[location] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[sendSms] == PackageManager.PERMISSION_GRANTED) {
 
-                Log.d(TAG, "Permission granted for ${Manifest.permission.ACCESS_FINE_LOCATION}")
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+
+                Log.d(TAG, "Permission granted for ${Manifest.permission.ACCESS_FINE_LOCATION} and ${Manifest.permission.SEND_SMS}")
                 askForLocationRequest()
             }
         }
@@ -121,8 +125,7 @@ class MainActivity : AppCompatActivity() {
         startLocationRequests?.addOnFailureListener(this) { e ->
             if (e is ResolvableApiException) {
                 Log.d(TAG, "LOCATION DISABLED, NEED TO ASK FOR ENABLE")
-                e.startResolutionForResult(this, REQUEST_LOCATION_TURN_ON)
-
+                e.startResolutionForResult(this, LOCATION_REQUEST)
             }
         }
 
@@ -133,7 +136,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startLocationRequestAndSwitchActivity() {
-        Log.d(TAG,"startLocationRequestAndSwitchActivity")
+        Log.d(TAG, "startLocationRequestAndSwitchActivity")
         location.startLocationRequests(applicationContext)
         val intent = Intent(this, CrashDetectingActivity::class.java)
         startActivity(intent)

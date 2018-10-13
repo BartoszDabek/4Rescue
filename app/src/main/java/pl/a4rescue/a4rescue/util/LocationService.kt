@@ -11,9 +11,6 @@ import com.google.android.gms.tasks.Task
 object LocationService {
 
     private val TAG = LocationService::class.java.simpleName
-    const val REQUEST_LOCATION_TURN_ON: Int = 1
-    const val REQUEST_LOCATION_PERMISSION: Int = 2
-
     private var locationCallback: LocationCallback? = null
     private val locationRequest = LocationRequest()
     var longitude: Double? = null
