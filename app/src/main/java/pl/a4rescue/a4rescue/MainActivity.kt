@@ -19,24 +19,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("TAG", "ON RESUME MainActivity")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("TAG", "ON PAUSE MainActivity")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("TAG", "ON STOP MainActivity")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("TAG", "ON DESTROY MainActivity")
-    }
-
 }

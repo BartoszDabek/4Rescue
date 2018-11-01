@@ -32,7 +32,7 @@ class Main2Activity : AppCompatActivity() {
             }
         })
 
-        fileSaver.init()
+        fileSaver.init(this)
 
         stopBtn.setOnClickListener {
             mSensorManager?.unregisterListener(mSensorListener)
