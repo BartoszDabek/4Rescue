@@ -1,9 +1,9 @@
 package pl.a4rescue.a4rescue.activities
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.telephony.SmsManager
 import android.util.Log
 import pl.a4rescue.a4rescue.R

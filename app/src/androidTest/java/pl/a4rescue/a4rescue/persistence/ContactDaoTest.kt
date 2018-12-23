@@ -1,9 +1,9 @@
 package pl.a4rescue.a4rescue.persistence
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.persistence.room.Room
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
+import androidx.test.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -23,8 +23,8 @@ class ContactDaoTest {
     private lateinit var mContactDao: ContactDao
 
     companion object {
-        private val CONTACT = Contact(1L, "username", "500 789 987")
-        private val CONTACT_TWO = Contact(2L, "username2", "600 123 456")
+        private val CONTACT = Contact("username", "500 789 987")
+        private val CONTACT_TWO = Contact("username2", "600 123 456")
     }
 
     @Before

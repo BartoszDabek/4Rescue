@@ -1,24 +1,24 @@
 package pl.a4rescue.a4rescue.fragments
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_contact.*
 import pl.a4rescue.a4rescue.R
 import pl.a4rescue.a4rescue.adapter.ContactListAdapter
-import pl.a4rescue.a4rescue.util.SwipeHelper
 import pl.a4rescue.a4rescue.persistence.Contact
+import pl.a4rescue.a4rescue.util.SwipeHelper
 import pl.a4rescue.a4rescue.viewmodel.ContactViewModel
 
 

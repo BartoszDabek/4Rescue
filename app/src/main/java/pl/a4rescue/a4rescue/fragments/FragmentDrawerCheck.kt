@@ -1,6 +1,6 @@
 package pl.a4rescue.a4rescue.fragments
 
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 interface FragmentDrawerCheck {

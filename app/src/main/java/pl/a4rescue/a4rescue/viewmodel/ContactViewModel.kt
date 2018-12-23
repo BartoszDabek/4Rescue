@@ -1,8 +1,8 @@
 package pl.a4rescue.a4rescue.viewmodel
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import android.util.Log
 import android.widget.Toast
 import pl.a4rescue.a4rescue.R
