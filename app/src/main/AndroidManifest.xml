@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pl.a4rescue.a4rescue">
+    package="pl.bdabek.a4rescue">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.MainActivity"
+            android:name="pl.bdabek.a4rescue.activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.CrashDetectingActivity"
+            android:name="pl.bdabek.a4rescue.activities.CrashDetectingActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
@@ -41,10 +41,10 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".activities.CrashDetectedActivity"
+            android:name="pl.bdabek.a4rescue.activities.CrashDetectedActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.SendSMSActivity"
+            android:name="pl.bdabek.a4rescue.activities.SendSMSActivity"
             android:screenOrientation="portrait" />
     </application>
 
