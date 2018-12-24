@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("pl.a4rescue.a4rescue", appContext.packageName)
+        assertEquals("pl.bdabek.a4rescue", appContext.packageName)
     }
 }
