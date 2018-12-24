@@ -22,7 +22,7 @@ import pl.bdabek.a4rescue.util.SwipeHelper
 import pl.bdabek.a4rescue.viewmodel.ContactViewModel
 
 
-class ContactFragment : Fragment(), FragmentDrawerCheck {
+class ContactFragment : Fragment(), AbstractFragment {
 
     private val TAG = ContactFragment::class.java.simpleName
     private val PICK_CONTACT_REQUEST = 1

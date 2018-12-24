@@ -16,7 +16,7 @@ import pl.bdabek.a4rescue.util.PermissionManager
 import pl.bdabek.a4rescue.util.PermissionManager.Companion.LOCATION_REQUEST
 
 
-class HomeScreenFragment : Fragment(), FragmentDrawerCheck {
+class HomeScreenFragment : Fragment(), AbstractFragment {
 
     private val TAG = HomeScreenFragment::class.java.simpleName
 
