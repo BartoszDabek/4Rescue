@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CrashDetectedActivity">
+    tools:context=".activities.CrashDetectedActivity"
+    android:background="@drawable/detected_activity_bg">
 
     <TextView
         android:id="@+id/countdown_tv"
@@ -16,6 +17,7 @@
         android:layout_marginTop="8dp"
         android:textSize="70sp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="#96581b"
         app:layout_constraintBottom_toTopOf="@+id/swipe_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
