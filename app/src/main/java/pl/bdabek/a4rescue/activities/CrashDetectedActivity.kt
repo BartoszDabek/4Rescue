@@ -1,5 +1,6 @@
 package pl.bdabek.a4rescue.activities
 
+import android.app.KeyguardManager
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,9 @@ import android.util.Log
 import kotlinx.android.synthetic.main.activity_crash_detected.*
 import pl.bdabek.a4rescue.R
 import pl.bdabek.a4rescue.util.LocationService
+import android.view.WindowManager
+
+
 
 
 class CrashDetectedActivity : AppCompatActivity() {
@@ -45,6 +49,14 @@ class CrashDetectedActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
+
     }
 
     private fun setUpAndStartTimer() {
