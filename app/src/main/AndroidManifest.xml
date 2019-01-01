@@ -44,10 +44,12 @@
 
         <activity
             android:name="pl.bdabek.a4rescue.activities.CrashDetectedActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
         <activity
             android:name="pl.bdabek.a4rescue.activities.SendSMSActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
     </application>
 
 </manifest>

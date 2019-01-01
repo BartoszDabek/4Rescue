@@ -51,6 +51,14 @@ class CrashDetectedActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.d(TAG, "User pressed back button")
+        LocationService.stopLocationRequests(this)
+        turnOffVibrationAndAlarm()
+        timer.cancel()
+    }
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or

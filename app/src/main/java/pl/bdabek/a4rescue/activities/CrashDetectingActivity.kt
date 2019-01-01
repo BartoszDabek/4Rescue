@@ -5,8 +5,8 @@ import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_crash_detecting.*
 import pl.bdabek.a4rescue.R
 import pl.bdabek.a4rescue.listeners.ShakeEventListener
@@ -60,6 +60,7 @@ class CrashDetectingActivity : AppCompatActivity() {
                 stopMeasureGForces()
                 val intent = Intent(applicationContext, CrashDetectedActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         })
     }
@@ -72,6 +73,7 @@ class CrashDetectingActivity : AppCompatActivity() {
     private fun switchToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
 }
